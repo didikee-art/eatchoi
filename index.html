@@ -3,117 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>仙女無菜 Week 🚫🥦</title>
+    <title>掛住仙女 🧚‍♀️</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Sans+TC:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { --milk: #FDFBF7; --warn: #FF4D4D; --text: #333; }
+        :root { --fairy-pink: #FF85A2; --fairy-bg: #FFF0F3; }
         body { 
-            font-family: 'Quicksand', 'Noto Sans TC', sans-serif; 
-            background-color: var(--milk); 
-            color: var(--text);
-            font-weight: 900;
+            font-family: 'Space Grotesk', 'Noto Sans TC', sans-serif; 
+            background-color: var(--fairy-bg); 
+            color: #1a1a1a;
         }
-        .soft-shadow { box-shadow: 8px 8px 0px rgba(0,0,0,0.05); }
-        .nav-active { color: var(--warn) !important; transform: scale(1.1); }
-        .day-done { background-color: #ffd1d1 !important; border: 3px solid var(--warn) !important; }
-        .img-container { height: 180px; overflow: hidden; border-radius: 30px; border: 4px solid black; margin-bottom: 20px; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .neo-card { 
+            background: white; 
+            border: 4px solid #1a1a1a; 
+            box-shadow: 8px 8px 0px #1a1a1a; 
+            transition: all 0.2s;
+        }
+        .day-btn {
+            background: white;
+            border: 2px solid #1a1a1a;
+            box-shadow: 4px 4px 0px #1a1a1a;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 8px 4px;
+            border-radius: 10px;
+        }
+        .day-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; background: var(--fairy-pink); color: white; }
+        .quote-box {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
-<body class="pb-32">
+<body class="pb-24">
 
-    <header class="p-6 text-center">
-        <h1 class="text-3xl font-black text-[#FF4D4D] tracking-tighter">無菜 WEEK 🚫🥦</h1>
+    <header class="p-8 pt-10 text-center">
+        <h1 class="text-3xl font-black italic">FAIRY <span class="text-[#FF85A2]">VOICE.</span></h1>
     </header>
 
-    <main id="app" class="px-6">
-        <div class="img-container">
-            <img src="choi.png" alt="Banner">
+    <main id="app" class="px-6 space-y-6">
+        <div class="neo-card p-6 rounded-2xl">
+            <p class="text-xs font-bold mb-2 uppercase opacity-40">Missed Level</p>
+            <input type="range" min="0" max="100" value="50" oninput="document.getElementById('lv-text').innerText = this.value + '%'" class="w-full accent-[#FF85A2]">
+            <div class="text-right mt-2 font-black text-[#FF85A2]" id="lv-text">50%</div>
         </div>
-        
-        <div id="content-area"></div>
+
+        <div class="neo-card p-6 rounded-2xl bg-white">
+            <div id="quote-display" class="quote-box text-xl font-black italic text-gray-800 mb-6 border-b-2 border-dashed border-gray-100 pb-4">
+                撳吓下面，聽吓仙女同你講乜...
+            </div>
+            
+            <div class="grid grid-cols-4 gap-2">
+                <button onclick="showQuote('Monday')" class="day-btn">MON</button>
+                <button onclick="showQuote('Tuesday')" class="day-btn">TUE</button>
+                <button onclick="showQuote('Wednesday')" class="day-btn">WED</button>
+                <button onclick="showQuote('Thursday')" class="day-btn">THU</button>
+                <button onclick="showQuote('Friday')" class="day-btn">FRI</button>
+                <button onclick="showQuote('Saturday')" class="day-btn">SAT</button>
+                <button onclick="showQuote('Sunday')" class="day-btn text-red-500">SUN</button>
+            </div>
+        </div>
+
+        <div class="neo-card p-0 rounded-2xl overflow-hidden h-48">
+            <img src="fairy_pic.jpg" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/500x300?text=Upload+Fairy+Drawing'">
+        </div>
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-black flex justify-around items-center py-4 z-50">
-        <button onclick="switchTab('map')" id="btn-map" class="nav-item flex flex-col items-center gap-1 text-gray-400">
-            <i class="fa-solid fa-poop text-xl"></i><span class="text-[10px]">MAP</span>
-        </button>
-        <button onclick="switchTab('log')" id="btn-log" class="nav-item flex flex-col items-center gap-1 text-gray-400">
-            <i class="fa-solid fa-camera text-xl"></i><span class="text-[10px]">LOG</span>
-        </button>
-        <button onclick="switchTab('ban')" id="btn-ban" class="nav-item flex flex-col items-center gap-1 text-gray-400">
-            <i class="fa-solid fa-ban text-xl"></i><span class="text-[10px]">BAN</span>
-        </button>
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-black flex justify-around items-center h-20 z-50">
+        <div class="flex flex-col items-center gap-1 font-black text-xs text-[#FF85A2]">
+            <i class="fa-solid fa-star text-xl"></i><span>DAILY MISS</span>
+        </div>
     </nav>
 
     <script>
-        let currentTab = 'map';
-        const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+        const quotes = {
+            'Monday': 'Baby 😘 錫錫',
+            'Tuesday': 'Baby ❤️ 攬攬',
+            'Wednesday': 'Baby 🤍 Muah Muah🐰',
+            'Thursday': 'Baby 🥰 掛住你',
+            'Friday': 'Baby 仙女要餵食lah',
+            'Saturday': 'Baby 🤍 J me',
+            'Sunday': 'Baby 今日全日都要陪住我 🧚‍♀️'
+        };
 
-        const getDB = (k) => JSON.parse(localStorage.getItem(k)) || {};
-        const setDB = (k, d) => localStorage.setItem(k, JSON.stringify(d));
-
-        function switchTab(tab) {
-            currentTab = tab;
-            render();
-        }
-
-        function render() {
-            const area = document.getElementById('content-area');
+        function showQuote(day) {
+            const display = document.getElementById('quote-display');
+            // 重新觸發動畫
+            display.style.animation = 'none';
+            display.offsetHeight; // trigger reflow
+            display.style.animation = null;
             
-            // 更新導航 UI
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('nav-active'));
-            document.getElementById('btn-' + currentTab).classList.add('nav-active');
-
-            if (currentTab === 'map') {
-                const status = getDB('poop_log');
-                area.innerHTML = `
-                    <p class="text-sm mb-4">💩 poop poop Map (點擊紀錄)</p>
-                    <div class="grid grid-cols-4 gap-3">
-                        ${days.map(d => `
-                            <div onclick="togglePoop('${d}')" class="h-20 flex flex-col items-center justify-center rounded-2xl border-4 ${status[d]?'day-done border-warn':'border-gray-100 bg-white'} transition-all">
-                                <span class="text-2xl">${status[d] ? '💩' : '❔'}</span>
-                                <span class="text-[10px]">${d}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } else if (currentTab === 'log') {
-                area.innerHTML = `
-                    <div class="bg-white p-6 rounded-[25px] soft-shadow border-4 border-black">
-                        <h3 class="text-xl mb-4 italic">📸 蔬菜通緝令</h3>
-                        <div class="w-full h-40 bg-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
-                            <p class="text-[10px] text-gray-400">仙女專用 Filter 加載中...</p>
-                        </div>
-                        <button class="w-full bg-black text-white py-3 mt-4 rounded-xl text-sm">捕捉蔬菜馬賽克</button>
-                    </div>
-                `;
-            } else {
-                area.innerHTML = `
-                    <div class="space-y-3">
-                        <h3 class="text-xl italic mb-4">🚫 蔬菜禁忌清單</h3>
-                        <div class="bg-white p-4 rounded-xl border-l-8 border-red-500 soft-shadow flex justify-between items-center">
-                            <span>大白菜 (恐怖份子)</span><i class="fa-solid fa-circle-xmark text-red-500"></i>
-                        </div>
-                        <div class="bg-white p-4 rounded-xl border-l-8 border-red-500 soft-shadow flex justify-between items-center">
-                            <span>菜心 (邪惡軸心)</span><i class="fa-solid fa-circle-xmark text-red-500"></i>
-                        </div>
-                    </div>
-                `;
-            }
+            display.innerText = quotes[day];
+            
+            // 加入簡單的震動效果（如果手機支援）
+            if (navigator.vibrate) navigator.vibrate(50);
         }
-
-        function togglePoop(day) {
-            const status = getDB('poop_log');
-            status[day] = !status[day];
-            setDB('poop_log', status);
-            render();
-        }
-
-        window.onload = render;
     </script>
 </body>
 </html>
