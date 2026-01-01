@@ -1,167 +1,35 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2761
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-
-\f0\fs24 \cf0 <!DOCTYPE html>\
-<html lang="zh-HK">\
-<head>\
-    <meta charset="UTF-8">\
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">\
-    <title>\uc0\u28961 \u33756  Week \u55356 \u57151  \u35686 \u22577 </title>\
-    <script src="https://cdn.tailwindcss.com"></script>\
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&family=Quicksand:wght@700&display=swap" rel="stylesheet">\
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">\
-    \
-    <style>\
-        :root \{ --milk: #FDFBF7; --warn: #FF4D4D; --text: #333; \}\
-        body \{ \
-            font-family: 'Quicksand', 'Noto Sans TC', sans-serif; \
-            background-color: var(--milk); \
-            color: var(--text);\
-            font-weight: 900; /* \uc0\u25972 \u39636 \u31895 \u39636 \u39080 \u26684  */\
-        \}\
-        .soft-shadow \{ box-shadow: 10px 10px 0px rgba(0,0,0,0.05); \}\
-        .active-tab \{ background-color: var(--warn) !important; color: white !important; \}\
-        .day-done \{ background-color: #ffd1d1 !important; border: 3px solid var(--warn) !important; \}\
-        .veg-mosaic \{ filter: blur(10px) contrast(2); \} /* \uc0\u27169 \u25836 \u39340 \u36093 \u20811 \u28670 \u37857  */\
-        input, textarea \{ border: 3px solid #eee; border-radius: 15px; padding: 12px; width: 100%; \}\
-        .forbidden-card \{ border-left: 8px solid var(--warn); \}\
-    </style>\
-</head>\
-<body class="pb-28">\
-\
-    <header class="p-8 text-center">\
-        <h1 class="text-4xl font-black text-[#FF4D4D] tracking-tighter">\uc0\u28961 \u33756  WEEK \u55357 \u57003 \u55358 \u56678 </h1>\
-        <p class="text-xs mt-2 tracking-widest opacity-60">ANTI-VEGETABLE LOG v1.0</p>\
-    </header>\
-\
-    <main id="app" class="px-6">\
-        </main>\
-\
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-black flex justify-around items-center py-4 z-50">\
-        <button onclick="switchTab('map')" class="nav-item flex flex-col items-center gap-1 text-gray-400">\
-            <i class="fa-solid fa-poop text-xl"></i><span class="text-[10px]">MAP</span>\
-        </button>\
-        <button onclick="switchTab('logger')" class="nav-item flex flex-col items-center gap-1 text-gray-400">\
-            <i class="fa-solid fa-camera text-xl"></i><span class="text-[10px]">LOG</span>\
-        </button>\
-        <button onclick="switchTab('forbidden')" class="nav-item flex flex-col items-center gap-1 text-gray-400">\
-            <i class="fa-solid fa-ban text-xl"></i><span class="text-[10px]">BAN</span>\
-        </button>\
-    </nav>\
-\
-    <script>\
-        let currentTab = 'map';\
-        const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];\
-        \
-        // \uc0\u21021 \u22987 \u21270 \u25976 \u25818 \
-        const getStore = (k) => JSON.parse(localStorage.getItem(k)) || \{\};\
-        const setStore = (k, d) => localStorage.setItem(k, JSON.stringify(d));\
-\
-        function switchTab(tab) \{\
-            currentTab = tab;\
-            render();\
-        \}\
-\
-        function render() \{\
-            const app = document.getElementById('app');\
-            if (currentTab === 'map') renderMap(app);\
-            else if (currentTab === 'logger') renderLogger(app);\
-            else renderForbidden(app);\
-        \}\
-\
-        // 1. \uc0\u55357 \u56489  \u22823 \u20415 \u35342 \u20240 \u22320 \u22294 \
-        function renderMap(app) \{\
-            const status = getStore('poop_status');\
-            const vegStatus = getStore('veg_hurt');\
-            \
-            let grid = days.map((day, i) => \{\
-                const isDone = status[day];\
-                return `\
-                <div onclick="togglePoop('$\{day\}')" class="h-20 flex flex-col items-center justify-center rounded-2xl border-4 $\{isDone?'day-done border-warn':'border-gray-100 bg-white'\} transition-all">\
-                    <span class="text-[10px]">$\{day\}</span>\
-                    <span class="text-2xl">$\{isDone ? '\uc0\u55357 \u56489 ' : '\u10068 '\}</span>\
-                </div>`;\
-            \}).join('');\
-\
-            app.innerHTML = `\
-                <div class="bg-white p-6 rounded-[30px] soft-shadow mb-6 border-4 border-black text-center">\
-                    <p class="text-sm">\uc0\u20170 \u26085 \u21463 \u20663 \u31243 \u24230  (\u35492 \u39135 \u34092 \u33756 \u37327 )</p>\
-                    <input type="range" min="0" max="100" value="$\{vegStatus.level || 0\}" onchange="saveVegHurt(this.value)" class="w-full accent-red-500 mt-4">\
-                    <p class="text-[10px] mt-2 text-red-500 font-black">\uc0\u35686 \u21578 \u65306 \u32160 \u33394 \u35686 \u25106  $\{vegStatus.level || 0\}%</p>\
-                </div>\
-                <div class="grid grid-cols-4 gap-3">$\{grid\}</div>\
-                <div class="mt-8 text-center p-6 bg-red-50 rounded-[30px] border-2 border-dashed border-red-200">\
-                    <p class="text-xs text-red-400">\uc0\u12300 \u20871 \u39135 \u33756 \u12301 \u24515 \u29702 \u32618 \u24801 \u24863 \u25269 \u37559 \u20540 </p>\
-                    <h3 class="text-4xl font-black text-red-500">-$\{Object.values(status).filter(v=>v).length * 15\}%</h3>\
-                </div>\
-            `;\
-        \}\
-\
-        function togglePoop(day) \{\
-            const status = getStore('poop_status');\
-            status[day] = !status[day];\
-            setStore('poop_status', status);\
-            render();\
-        \}\
-\
-        function saveVegHurt(val) \{\
-            setStore('veg_hurt', \{level: val\});\
-            render();\
-        \}\
-\
-        // 2. \uc0\u55357 \u56568  \u34092 \u33756 \u36890 \u32221 \u20196  (\u27169 \u25836 \u39340 \u36093 \u20811 \u21151 \u33021 )\
-        function renderLogger(app) \{\
-            app.innerHTML = `\
-                <div class="bg-white p-6 rounded-[30px] soft-shadow border-4 border-black">\
-                    <h3 class="text-xl mb-4">\uc0\u55357 \u56568  \u20185 \u22899 \u23560 \u29992 \u36890 \u32221 \u30456 \u27231 </h3>\
-                    <div id="preview" class="w-full h-64 bg-gray-100 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300">\
-                        <p class="text-gray-400 text-xs text-center">\uc0\u40670 \u25802 \u19979 \u26041 \u25353 \u37397 <br>\u23565 \u32160 \u33394 \u26893 \u29289 \u36914 \u34892 \u39340 \u36093 \u20811 \u34389 \u29702 </p>\
-                    </div>\
-                    <button class="w-full bg-black text-white py-4 mt-4 rounded-2xl font-black">\uc0\u25429 \u25417 \u34092 \u33756 \u20491 \u39636 </button>\
-                </div>\
-                <div class="mt-4 p-4 text-[10px] opacity-50 italic">\uc0\u35387 \u65306 JS \u33258 \u21205 \u20597 \u28204 \u32160 \u33394 \u21312 \u22495 \u20006 \u36914 \u34892 \u20687 \u32032 \u21270 \u27169 \u31946 \u65288 \u20185 \u22899  Filter \u21152 \u36617 \u20013 \u65289 </div>\
-            `;\
-        \}\
-\
-        // 3. \uc0\u55357 \u57003  \u34092 \u33756 \u31105 \u24524 \u28165 \u21934 \
-        function renderForbidden(app) \{\
-            const list = getStore('forbidden_list').length ? getStore('forbidden_list') : [\
-                \{id:1, t:"\uc0\u22823 \u30333 \u33756  (\u24656 \u24598 \u20221 \u23376 )", d:false\},\
-                \{id:2, t:"\uc0\u33756 \u24515  (\u37034 \u24801 \u36600 \u24515 )", d:false\},\
-                \{id:3, t:"\uc0\u29983 \u33756  (\u20605 \u35037 \u22823 \u24107 )", d:false\}\
-            ];\
-            setStore('forbidden_list', list);\
-\
-            app.innerHTML = `\
-                <div class="space-y-4">\
-                    <h3 class="text-2xl mb-2">\uc0\u55357 \u57003  THE FORBIDDEN</h3>\
-                    $\{list.map(i => `\
-                        <div onclick="toggleForbidden($\{i.id\})" class="forbidden-card bg-white p-6 rounded-2xl soft-shadow flex justify-between items-center cursor-pointer">\
-                            <span class="$\{i.d ? 'line-through opacity-30' : ''\}">$\{i.t\}</span>\
-                            <i class="fa-solid $\{i.d ? 'fa-circle-check text-green-500' : 'fa-circle-xmark text-red-500'\} text-2xl"></i>\
-                        </div>\
-                    `).join('')\}\
-                </div>\
-                <div class="mt-8 p-6 bg-black text-white rounded-[30px] text-center">\
-                    <p class="text-[10px] opacity-60">\uc0\u25298 \u32085 \u34092 \u33756 \u25104 \u23601 </p>\
-                    <h4 class="text-2xl font-black">\uc0\u25104 \u21151 \u25269 \u21046  $\{list.filter(v=>v.d).length\} \u27425 </h4>\
-                </div>\
-            `;\
-        \}\
-\
-        function toggleForbidden(id) \{\
-            const list = getStore('forbidden_list');\
-            const item = list.find(x => x.id === id);\
-            item.d = !item.d;\
-            setStore('forbidden_list', list);\
-            render();\
-        \}\
-\
-        window.onload = render;\
-    </script>\
-</body>\
-</html>}
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>無菜 Week 🚫🥦</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --milk: #FDFBF7; --warn: #FF4D4D; --text: #333; }
+        body { font-family: 'Quicksand', 'Noto Sans TC', sans-serif; background-color: var(--milk); color: var(--text); font-weight: 900; }
+        .soft-shadow { box-shadow: 10px 10px 0px rgba(0,0,0,0.05); }
+        .day-done { background-color: #ffd1d1 !important; border: 3px solid var(--warn) !important; }
+    </style>
+</head>
+<body class="pb-28">
+    <header class="p-8 text-center">
+        <h1 class="text-4xl font-black text-[#FF4D4D] tracking-tighter">無菜 WEEK 🚫🥦</h1>
+    </header>
+    <main id="app" class="px-6">
+        <div class="mb-6"><img src="choi.png" class="w-full rounded-[30px] shadow-lg"></div>
+        <div id="content-area"></div>
+    </main>
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-black flex justify-around items-center py-4">
+        <div class="text-center"><i class="fa-solid fa-poop text-xl"></i><br><span class="text-[10px]">MAP</span></div>
+    </nav>
+    <script>
+        // 簡單的點擊紀錄邏輯
+        const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+        const app = document.getElementById('content-area');
+        app.innerHTML = `<div class="grid grid-cols-4 gap-3">${days.map(d => `<div onclick="this.classList.toggle('day-done')" class="h-20 flex flex-col items-center justify-center rounded-2xl border-4 border-gray-100 bg-white text-2xl">❔<span class="text-[10px]">${d}</span></div>`).join('')}</div>`;
+    </script>
+</body>
+</html>
