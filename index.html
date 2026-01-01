@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>無菜 Week 🚫🥦</title>
+    <title>仙女無菜 Week 🚫🥦</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&family=Quicksand:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -71,7 +71,7 @@
             if (currentTab === 'map') {
                 const status = getDB('poop_log');
                 area.innerHTML = `
-                    <p class="text-sm mb-4">💩 大便討伐地圖 (點擊紀錄)</p>
+                    <p class="text-sm mb-4">💩 poop poop Map (點擊紀錄)</p>
                     <div class="grid grid-cols-4 gap-3">
                         ${days.map(d => `
                             <div onclick="togglePoop('${d}')" class="h-20 flex flex-col items-center justify-center rounded-2xl border-4 ${status[d]?'day-done border-warn':'border-gray-100 bg-white'} transition-all">
